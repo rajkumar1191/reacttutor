@@ -1,0 +1,15 @@
+.overlay{
+    background: rgba(0,0,0,0.7);
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+}
+
+.dialog{
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    background: #fff;
+    padding: 20px;
+}
