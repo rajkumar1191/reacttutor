@@ -2,14 +2,14 @@ import { useState, useEffect, useRef, useReducer } from "react";
 import ErrorModal from "./../ErrorModal/ErrorModal";
 
 const ageReducer = (state, action) => {
-  if (action.type === "INPUT_CHANGE") {
+  if (action?.type === "INPUT_CHANGE") {
     return {
       value: action.value,
       isValid: parseInt(action.value) > 18 ? true : false,
     };
   }
 
-  if (action.type === "INPUT_BLUR") {
+  if (action?.type === "INPUT_BLUR") {
     return {
       value: state.value,
       isValid: parseInt(state.value) > 18 ? true : false,
@@ -75,11 +75,26 @@ const AddProfile = (props) => {
       setError(true);
       setErrorMgs("Please enter the location");
     } else {
-      props.profileFn({ name: name, age: ageState.value, loc: loc });
+      let obj = { name: name, age: ageState.value, loc: loc };
+      // props.profileFn({ name: name, age: ageState.value, loc: loc });
+      fetchPhotosHandler(obj);
       setName("");
       dispatchAge();
       setLoc("");
     }
+  };
+
+  const fetchPhotosHandler = (data) => {
+    fetch("https://arasee-2db37-default-rtdb.firebaseio.com/contacts.json", {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        return data;
+      });
   };
 
   const closeModalHandler = () => {

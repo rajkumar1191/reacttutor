@@ -6,6 +6,7 @@ import BookForm from "./components/Books/BooksForm/BookForm";
 
 import Profile from "./components/Profile/Show";
 import AddProfile from "./components/Profile/Add";
+import Gallery from "./components/Gallery/Gallery";
 
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/dashboard/dashboard";
@@ -62,15 +63,9 @@ function App() {
 
   return (
     <>
-    <Dashboard />
+      <Dashboard />
       <Routes>
-        <Route
-          path="/"
-          exact
-          element={
-            <h1>Welcome to tutorial</h1>
-          }
-        ></Route>
+        <Route path="/" exact element={<h1>Welcome to tutorial</h1>}></Route>
         <Route
           path="/add"
           exact
@@ -91,8 +86,8 @@ function App() {
             />
           }
         ></Route>
+        <Route path="/gallery" exact element={<Gallery />}></Route>
       </Routes>
-      
 
       {/* <div>Books</div> */}
 

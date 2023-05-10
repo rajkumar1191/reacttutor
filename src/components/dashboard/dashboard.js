@@ -14,6 +14,9 @@ const Dashboard = () => {
         <div className="card-footer text-body-secondary">
           <Link to="/profile">Profile</Link>
         </div>
+        <div className="card-footer text-body-secondary">
+          <Link to="/gallery">Gallery</Link>
+        </div>
       </div>
     </>
   );
