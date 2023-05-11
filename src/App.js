@@ -1,6 +1,8 @@
 // import logo from "./logo.svg";
 // import './App.css';
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
 import BookList from "./components/Books/BookList/BookList";
 import BookForm from "./components/Books/BooksForm/BookForm";
 
@@ -51,8 +53,8 @@ function App() {
   };
 
   const getEditData = (data) => {
-    const { name, age, loc } = data;
-    setEditData({ name: name, age: age, loc: loc });
+    const { name, age, loc, id } = data;
+    setEditData({ name: name, age: age, loc: loc, id: id });
   };
 
   const getDeleteData = () => {
@@ -86,7 +88,11 @@ function App() {
             />
           }
         ></Route>
-        <Route path="/gallery" exact element={<Gallery />}></Route>
+        <Route
+          path="/gallery"
+          exact
+          element={<Gallery deleteFn={getDeleteData} editFn={getEditData} />}
+        ></Route>
       </Routes>
 
       {/* <div>Books</div> */}

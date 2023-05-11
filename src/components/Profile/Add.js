@@ -23,6 +23,8 @@ const ageReducer = (state, action) => {
 };
 
 const AddProfile = (props) => {
+
+  console.log(props)
   const nameRef = useRef();
 
   const [name, setName] = useState("");

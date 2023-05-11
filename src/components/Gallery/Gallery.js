@@ -1,27 +1,63 @@
 import { useState, useEffect } from "react";
 
-const Gallery = () => {
+const Gallery = (props) => {
   let [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const editHandler = (item) => {
+    item['name']='Raj';
+    editPhotosHandler(item);
+  };
 
-  const fetchPhotosHandler = () => {
-    // fetch("https://jsonplaceholder.typicode.com/photos")
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     return data;
-    //   });
-    // https://arasee-2db37-default-rtdb.firebaseio.com
-
-    fetch("https://arasee-2db37-default-rtdb.firebaseio.com/contacts.json")
+  const deletePhotosHandler = (id) => {
+    fetch(`https://arasee-2db37-default-rtdb.firebaseio.com/contacts/${id}.json/`, {
+      method: "DELETE"
+    })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
+        refreshFn();
         return data;
       });
   };
+  
+  const editPhotosHandler = (data) => {
+    fetch(`https://arasee-2db37-default-rtdb.firebaseio.com/contacts/${data.id}.json/`, {
+      method: "PUT",
+      body: JSON.stringify(data)
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        refreshFn();
+        return data;
+
+      });
+  };
+
+  const refreshFn=()=>{
+    fetch("https://arasee-2db37-default-rtdb.firebaseio.com/contacts.json")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setLoading(false);
+          let photos = [];
+          for (let key in data) {
+            console.log(key);
+            let obj = {
+              id: key,
+              name: data[key].name,
+              age: data[key].age,
+              loc: data[key].loc,
+            };
+            photos.push(obj);
+          }
+          setPhotos(photos);
+        });
+  }
 
   useEffect(() => {
     async function Load() {
@@ -33,7 +69,7 @@ const Gallery = () => {
         .then((data) => {
           console.log(data);
           setLoading(false);
-        let photos = [];
+          let photos = [];
           for (let key in data) {
             console.log(key);
             let obj = {
@@ -42,7 +78,7 @@ const Gallery = () => {
               age: data[key].age,
               loc: data[key].loc,
             };
-            photos.push(obj)
+            photos.push(obj);
           }
           setPhotos(photos);
         });
@@ -52,9 +88,9 @@ const Gallery = () => {
 
   return (
     <>
-      <button className="btn btn-primary" onClick={fetchPhotosHandler}>
+      {/* <button className="btn btn-primary" onClick={fetchPhotosHandler}>
         Fetch Details
-      </button>
+      </button> */}
       <div className="container">
         <div className="row">
           {photos &&
@@ -67,6 +103,18 @@ const Gallery = () => {
                     <p className="card-text">{item.age}</p>
                     <p className="card-text">{item.loc}</p>
                   </div>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => editHandler(item)}
+                  >
+                    Edit Details
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={()=>deletePhotosHandler(item.id)}
+                  >
+                    Delete Details
+                  </button>
                 </div>
               );
             })}
