@@ -1,10 +1,6 @@
 // import logo from "./logo.svg";
 // import './App.css';
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-
-import BookList from "./components/Books/BookList/BookList";
-import BookForm from "./components/Books/BooksForm/BookForm";
+import { useState, useEffect } from "react";
 
 import Profile from "./components/Profile/Show";
 import AddProfile from "./components/Profile/Add";
@@ -12,6 +8,7 @@ import Gallery from "./components/Gallery/Gallery";
 
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/dashboard/dashboard";
+import Login from "./components/Login/Login";
 
 // fragments
 function App() {
@@ -19,32 +16,7 @@ function App() {
   const [age, setAge] = useState("31");
   const [loc, setLoc] = useState("Chennai");
   const [editData, setEditData] = useState({});
-
-  // let array = [
-  //   {
-  //     bookName: "You live only once",
-  //     bookPrice: 154,
-  //     bookAuthor: "Maxine",
-  //     id: "13",
-  //   },
-  //   {
-  //     bookName: "Harry Portor",
-  //     bookPrice: 150,
-  //     bookAuthor: "Maxine",
-  //     id: "21",
-  //   },
-  //   {
-  //     bookName: "Ninja",
-  //     bookPrice: 104,
-  //     bookAuthor: "Maxine",
-  //     id: "32",
-  //   },
-  // ];
-  // const [arrayVal, setArrayVal] = useState([]);
-
-  // const getBookDetails = (bookData) => {
-  //   setArrayVal([...arrayVal, bookData]);
-  // };
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   const getProfileFromChild = (data) => {
     setName(data.name);
@@ -63,6 +35,14 @@ function App() {
     setLoc("");
   };
 
+  useEffect(() => {
+    const user = localStorage.getItem("userLogin");
+
+    if (user) {
+      setLoggedIn(true);
+    }
+  }, [isLoggedIn]);
+
   return (
     <>
       <Dashboard />
@@ -75,6 +55,7 @@ function App() {
             <AddProfile dataToEdit={editData} profileFn={getProfileFromChild} />
           }
         ></Route>
+        <Route path="/login" exact element={<Login />}></Route>
         <Route
           path="/profile"
           exact
@@ -94,37 +75,6 @@ function App() {
           element={<Gallery deleteFn={getDeleteData} editFn={getEditData} />}
         ></Route>
       </Routes>
-
-      {/* <div>Books</div> */}
-
-      {/* <BookForm bookFn={getBookDetails} /> */}
-      {/* <BookList bookName="You live only once" bookPrice="154" bookAuthor="Maxine" />
-      <BookList bookName="Harry Portor" bookPrice="150" bookAuthor="Maxine" />
-      <BookList bookName="Ninja" bookPrice="104" bookAuthor="Maxine" /> */}
-      {/*<div className="container text-center">
-        <div className="row">
-           {arrayVal.map((book, index) => {
-            return (
-              <BookList
-                key={book.id}
-                bookName={book.bookName}
-                bookPrice={book.bookPrice}
-                bookAuthor={book.bookAuthor}
-              />
-            );
-          })}
-        </div>
-      </div> */}
-      {/* <BookList
-        bookName={array[1].bookName}
-        bookPrice={array[1].bookPrice}
-        bookAuthor={array[1].bookAuthor}
-      />
-      <BookList
-        bookName={array[2].bookName}
-        bookPrice={array[2].bookPrice}
-        bookAuthor={array[2].bookAuthor}
-      /> */}
     </>
   );
 }
