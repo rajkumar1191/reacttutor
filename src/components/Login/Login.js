@@ -2,7 +2,6 @@ const Login = () => {
 
     const loginHandler = () => {
         localStorage.setItem('userLogin', true)
-        window.location.href = '/';
     }
     return (
         <>

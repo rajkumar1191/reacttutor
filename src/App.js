@@ -9,6 +9,9 @@ import Gallery from "./components/Gallery/Gallery";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/dashboard/dashboard";
 import Login from "./components/Login/Login";
+import Navigation from "./components/Navigation/Navigation";
+
+import AuthContext from "./store/auth-context";
 
 // fragments
 function App() {
@@ -29,10 +32,14 @@ function App() {
     setEditData({ name: name, age: age, loc: loc, id: id });
   };
 
-  const getDeleteData = () => {
-    setName("");
-    setAge("");
-    setLoc("");
+  const logoutHandler = () => {
+    localStorage.removeItem("userLogin");
+    setLoggedIn(false);
+  };
+
+  const loginHandler = () => {
+    localStorage.setItem("userLogin", true);
+    setLoggedIn(true);
   };
 
   useEffect(() => {
@@ -45,36 +52,15 @@ function App() {
 
   return (
     <>
-      <Dashboard />
-      <Routes>
-        <Route path="/" exact element={<h1>Welcome to tutorial</h1>}></Route>
-        <Route
-          path="/add"
-          exact
-          element={
-            <AddProfile dataToEdit={editData} profileFn={getProfileFromChild} />
-          }
-        ></Route>
-        <Route path="/login" exact element={<Login />}></Route>
-        <Route
-          path="/profile"
-          exact
-          element={
-            <Profile
-              deleteFn={getDeleteData}
-              editFn={getEditData}
-              name={name}
-              age={age}
-              loc={loc}
-            />
-          }
-        ></Route>
-        <Route
-          path="/gallery"
-          exact
-          element={<Gallery deleteFn={getDeleteData} editFn={getEditData} />}
-        ></Route>
-      </Routes>
+      {isLoggedIn && <button onClick={logoutHandler}>Log Out</button>}
+      {!isLoggedIn && <button onClick={loginHandler}>Log In</button>}
+
+      <AuthContext.Provider
+        value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler }}
+      >
+        <Dashboard />
+        <Navigation />
+      </AuthContext.Provider>
     </>
   );
 }

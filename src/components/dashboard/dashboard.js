@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { Link } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 
 const Dashboard = () => {
+  const ctx = useContext(AuthContext);
+
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -16,19 +19,14 @@ const Dashboard = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("userLogin");
-    window.location.href = '/';
+    // window.location.href = "/";
   };
 
   return (
     <>
       <div>
         <h2>Dashboard</h2>
-        {!isLoggedIn && (
-          <div className="card-footer text-body-secondary">
-            <Link to="/login">Login</Link>
-          </div>
-        )}
-        {isLoggedIn && (
+        {ctx.isLoggedIn && (
           <>
             <div className="card-footer text-body-secondary">
               <Link to="/">Dashboard</Link>
@@ -43,7 +41,6 @@ const Dashboard = () => {
               <Link to="/gallery">Gallery</Link>
             </div>
             <div className="card-footer text-body-secondary">
-              <button onClick={logoutHandler}>Log Out</button>
             </div>
           </>
         )}
