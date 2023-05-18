@@ -10,7 +10,7 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/dashboard/dashboard";
 import Login from "./components/Login/Login";
 import Navigation from "./components/Navigation/Navigation";
-
+import Counter from './components/Counter/Counter';
 import AuthContext from "./store/auth-context";
 
 // fragments
@@ -58,6 +58,7 @@ function App() {
       {/* <AuthContext.Provider
         value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler }}
       > */}
+        <Counter />
         <Dashboard />
         {/* <Login /> */}
       {/* </AuthContext.Provider> */}
