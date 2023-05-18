@@ -52,15 +52,15 @@ function App() {
 
   return (
     <>
-      {isLoggedIn && <button onClick={logoutHandler}>Log Out</button>}
-      {!isLoggedIn && <button onClick={loginHandler}>Log In</button>}
+      {/* {isLoggedIn && <button onClick={logoutHandler}>Log Out</button>}
+      {!isLoggedIn && <button onClick={loginHandler}>Log In</button>} */}
 
-      <AuthContext.Provider
+      {/* <AuthContext.Provider
         value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler }}
-      >
+      > */}
         <Dashboard />
-        <Navigation />
-      </AuthContext.Provider>
+        {/* <Login /> */}
+      {/* </AuthContext.Provider> */}
     </>
   );
 }
